@@ -35,3 +35,34 @@ def viewall():
     else:
         print('No records available')
     mycon.close()
+
+def viewone():
+    '''To display the record of a particular car'''
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+    car_id = input("Enter the car_id: ").upper()
+    print()
+    sql = "select * from cars where car_id = '%s'" % car_id
+    mycursor.execute(sql)
+    data = mycursor.fetchall()
+    if mycursor.rowcount:
+        data = data[0]
+        header = ['CAR_ID', 'COMPANY', 'MODEL', 'YEAR', 'ENGINE', 'REAR AC', 'NO OF SEATS', 'INFOTAINMENT SYSTEM', 'COST PER DAY', 'STATUS']
+        engine = {'E': 'Electric', 'P': 'Petrol', 'D': 'Diesel'}
+        status = {'A': 'Available', 'R': 'Rented', 'M': 'Maintenance'}
+        choice = {'Y': 'Available', 'N': 'Not available'}
+        for i in range(len(header)):
+            if i in (0, 1, 2):
+                print('{:^21s}:{:^25s}'.format(header[i], data[i]))
+            elif i in (3, 6):
+                print('{:^21s}:{:^25d}'.format(header[i], data[i]))
+            elif i == 4:
+                print('{:^21s}:{:^25s}'.format(header[i], engine[data[4]])
+            elif i in (5, 7):
+                print('{:^21s}:{:^25s}'.format(header[i], choice[data[i]])
+            elif i == 8:
+                print('{:^21s}:{:^25.3f}'.format(header[i], data[8])
+            else:
+                print('{:^21s}:{:^25s}'.format(header[i], status[data[9]])
+    else:
+        print("CAR_ID does not exist")
