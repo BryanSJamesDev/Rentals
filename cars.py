@@ -66,3 +66,74 @@ def viewone():
                 print('{:^21s}:{:^25s}'.format(header[i], status[data[9]])
     else:
         print("CAR_ID does not exist")
+
+def add_car():
+    '''Adds a car record to the car table'''
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+    while True:  # Checking whether car already exists in the table
+        CAR_ID = input("Enter the number plate: ").upper()
+        sql = 'Select * from cars where car_id = "%s"' % CAR_ID
+        mycursor.execute(sql)
+        if mycursor.rowcount:
+            print('Error! Car already exists in the table')
+            continue
+        break
+    COMPANY = input("Enter company name: ").upper()
+    MODEL_NAME = input("Enter the model name: ").upper()
+    while True:
+        YEAR = input("Enter the year of production: ")
+        if len(YEAR) == 4 and YEAR.isdigit():
+            YEAR = int(YEAR)
+        else:
+            print("Invalid Value Entered! Please enter a 4 digit number")
+            continue
+        break
+    while True:
+        ENGINE = input("Enter the engine type [E/P/D]: ").upper()
+        if ENGINE in ('E', 'P', 'D'):
+            pass
+        else:
+            print("Invalid Value Entered! Please enter the specified values [E/P/D]")
+            continue
+        break
+    while True:
+        REAR_AC = input("Rear AC available? [Y/N]: ").upper()
+        if REAR_AC in ('Y', 'N'):
+            pass
+        else:
+            print("Invalid Value Entered! Please enter the specified values [Y/N]")
+            continue
+        break
+    while True:
+        NO_SEATS = input("Enter the number of seats: ")
+        if NO_SEATS.isdigit() and int(NO_SEATS) <= 16:
+            NO_SEATS = int(NO_SEATS)
+            pass
+        else:
+            print("Invalid Value Entered! Please enter a number less than 17")
+            continue
+        break
+    while True:
+        IFOSYS = input("Infotainment system available? [Y/N]: ").upper()
+        if IFOSYS in ('Y', 'N'):
+            pass
+        else:
+            print("Invalid!!! Please enter specified values [Y/N]")
+            continue
+        break
+    while True:
+        try:
+            COST_PDAY = float(input("Enter the cost per day (In KWD): ")
+            if COST_PDAY <= 0:
+                raise Exception  # Raises an error (goes to the except block) if the cost entered is negative
+        except:
+            print('Invalid value! Please enter a valid positive decimal number')
+            continue
+        break
+    DATA = (CAR_ID, COMPANY, MODEL_NAME, YEAR, ENGINE, REAR_AC, NO_SEATS, IFOSYS, COST_PDAY, "A")
+    sql = "insert into cars values('%s', '%s', '%s', %d, '%s', '%s', %d, '%s', %f, '%s')" % DATA
+    mycursor.execute(sql)
+    mycon.commit()
+    mycon.close()
+    print("Car added successfully")
