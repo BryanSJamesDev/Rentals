@@ -137,3 +137,46 @@ def add_car():
     mycon.commit()
     mycon.close()
     print("Car added successfully")
+
+def DEL_CAR():
+    '''Deletes a car record from the table'''
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+    while True:
+        sql = "select CAR_ID from cars where status != 'r'"  # Allows only Available/under maintenance cars to be deleted
+        mycursor.execute(sql)
+        caridlist = mycursor.fetchall()
+        caridlist = [i[0] for i in caridlist]  # Extracts each carid from its tuple and generates a list of car ids
+        sql = "select CAR_ID from cars where status = 'r'"
+        mycursor.execute(sql)
+        rented = mycursor.fetchall()
+        rented = [i[0] for i in rented]
+        while True:
+            CAR_ID = input("Enter your CAR_ID: ").upper()
+            if CAR_ID in caridlist:
+                break
+            elif CAR_ID in rented:
+                print('You cannot delete this car as it is currently rented! Please try again')
+            else:
+                print("Invalid car ID! Please try again")
+        while True:
+            a = input("Are you sure you want to delete this car: [Y/N] ").upper()
+            if a in ('Y', 'N'):
+                pass
+            else:
+                print("Invalid choice entered, Enter specified value [Y/N]")
+                continue
+            break
+        if a == 'Y':
+            sql = "DELETE from cars WHERE car_id = '%s'" % CAR_ID
+            mycursor.execute(sql)
+            print("Car deleted successfully")
+            mycon.commit()
+            choice = input("Do you want to delete any more cars? [Y/N] ").upper()
+            if choice == "N":
+                mycon.close()
+                break
+            elif choice != 'Y':
+                print('Invalid Choice! Your response is taken as a "No"')
+                mycon.close()
+                break
