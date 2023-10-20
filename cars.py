@@ -180,3 +180,13 @@ def DEL_CAR():
                 print('Invalid Choice! Your response is taken as a "No"')
                 mycon.close()
                 break
+
+def change_price():
+    '''To change the price of a car'''
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+    while True:
+        sql = "select CAR_ID from cars"
+        mycursor.execute(sql)
+        caridlist = mycursor.fetchall()
+        caridlist = [i[0] for i in caridlist]
