@@ -190,3 +190,18 @@ def change_price():
         mycursor.execute(sql)
         caridlist = mycursor.fetchall()
         caridlist = [i[0] for i in caridlist]
+        while True:
+            CAR_ID = input("Enter your CAR_ID: ").upper()
+            if CAR_ID in caridlist:
+                break
+            else:
+                print("Invalid car ID! Please try again")
+        while True:
+            try:
+                new_price = float(input('Enter new price: '))
+                if new_price <= 0:
+                    raise Exception
+            except:
+                print('Invalid value! Please enter a valid decimal number')
+                continue
+            break
