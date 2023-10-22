@@ -205,3 +205,16 @@ def change_price():
                 print('Invalid value! Please enter a valid decimal number')
                 continue
             break
+        sql = 'update cars set cost_pday = %f where car_id = "%s"' % (new_price, CAR_ID)
+        mycursor.execute(sql)
+        mycon.commit()
+        while True:
+            choice1 = input("Do you wish to change the price of another car? [Y/N]: ").upper()
+            if choice1 in ("Y", "N"):
+                break
+            else:
+                print("Invalid Value Entered! Please enter specified values [Y/N]")
+        if choice1 == "N":
+            print("Changes made successfully")
+            mycon.close()
+            break
