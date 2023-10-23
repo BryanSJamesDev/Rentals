@@ -218,3 +218,19 @@ def change_price():
             print("Changes made successfully")
             mycon.close()
             break
+
+def change_status():
+    '''To change the status of a car from Available to Maintenance and vice versa'''
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+    while True:
+        sql = "select CAR_ID from cars"
+        mycursor.execute(sql)
+        caridlist = mycursor.fetchall()
+        caridlist = [i[0] for i in caridlist]
+        while True:
+            CAR_ID = input("Enter your CAR_ID: ").upper()
+            if CAR_ID in caridlist:
+                break
+            else:
+                print("Invalid car ID! Please try again")
