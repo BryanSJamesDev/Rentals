@@ -234,3 +234,38 @@ def change_status():
                 break
             else:
                 print("Invalid car ID! Please try again")
+
+        sql = "select status from cars where CAR_ID='%s'" % CAR_ID
+        mycursor.execute(sql)
+        status = mycursor.fetchone()
+        status = status[0]  # Taking the string out of the tuple
+        if status == "R":
+            print("You cannot change the status of this car as it is currently being rented.")
+        else:
+            print("The current status of the car is", status)
+        while True:
+            choice = input("Do you wish to change the status of this car [Y/N]: ").upper()
+            if choice in ("Y", "N"):
+                break
+            else:
+                print("Invalid Choice Entered! Please enter specified values [Y/N]")
+        if choice == "N":
+            break
+        else:
+            if status == "A":
+                new_status = "M"
+            else:
+                new_status = "A"
+            sql = "update cars set status='%s' where car_id = '%s'" % (new_status, CAR_ID)
+            mycursor.execute(sql)
+            mycon.commit()
+        while True:
+            choice1 = input("Do you wish to change the status of another car? [Y/N]: ").upper()
+            if choice1 in ("Y", "N"):
+                break
+            else:
+                print("Invalid Value Entered! Please enter specified values [Y/N]")
+        if choice1 == "N":
+            print("Changes made successfully")
+            mycon.close()
+            break
