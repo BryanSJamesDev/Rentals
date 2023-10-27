@@ -54,3 +54,17 @@ def ADD():
             print("This email already exists! Please try again!")
             continue
         break
+
+    address = input('Enter address: ').upper()
+
+    data = (c_id, name, mob1, mob2, email, address, 0, 'I')  # 0 refers to reservation count while I is for status
+    sql = "insert into customer values ('%s', '%s', %d, %d, '%s', '%s', %d, '%s')" % data
+
+    mycursor.execute(sql)
+    mycon.commit()
+    mycon.close()
+
+    print('\nCustomer successfully added')
+    print("Your Customer_id is", c_id)
+
+    return c_id
