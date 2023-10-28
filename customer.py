@@ -68,3 +68,21 @@ def ADD():
     print("Your Customer_id is", c_id)
 
     return c_id
+
+def UPDATE():
+    '''To update customer details'''
+    mycon = mysql.connector.connect(host='localhost',
+                                   database='car_rentals',
+                                   user='csproject',
+                                   password='2020')
+    mycursor = mycon.cursor(buffered=True)
+
+    c_id = input("Enter Customer ID: ")
+
+    sql = "select mobile_1, mobile_2, email, address from customer where c_id = '%s'" % c_id
+
+    mycursor.execute(sql)
+
+    data = mycursor.fetchall()
+
+    b = mycursor.rowcount
