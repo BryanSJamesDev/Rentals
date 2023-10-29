@@ -86,3 +86,78 @@ def UPDATE():
     data = mycursor.fetchall()
 
     b = mycursor.rowcount
+
+    if b == 0:
+        print('Customer does not exist')
+    else:
+        data = data[0]  # Taking the tuple of the list
+        mob1, mob2, email, address = data
+
+        while True:
+            print()
+            print("What do you wish to change?")
+            print("1. Mobile 1")
+            print("2. Mobile 2")
+            print("3. Email")
+            print("4. Address")
+            print('5. Save Changes')
+
+            while True:
+                choice = input("Enter your choice: ")
+                if len(choice) != 1 or not choice.isdigit() or choice not in "12345":
+                    print("Invalid choice! Please try again")
+                else:
+                    break
+
+            if choice == "1":
+                while True:
+                    try:
+                        mob1 = int(input('Enter mobile 1: '))
+                        if len(str(mob1)) != 8:
+                            raise Exception
+                        sql = 'select * from customer where mobile_1 = %d' % mob1
+                        mycursor.execute(sql)
+                        mycursor.fetchall()
+                        if mycursor.rowcount:
+                            print("This number already exists! Please try again!")
+                            continue
+                    except:
+                        print('Invalid Mobile Number entered! Please try again')
+                        continue
+                    break
+
+            elif choice == "2":
+                while True:
+                    try:
+                        mob2 = int(input('Enter mobile 2: '))
+                        if len(str(mob2)) != 8:
+                            raise Exception
+                    except:
+                        print('Invalid Mobile Number entered! Please try again')
+                        continue
+                    break
+
+            elif choice == "3":
+                while True:
+                    email = input('Enter email address: ').lower()
+                    sql = "select email from customer where email = '%s'" % email
+                    mycursor.execute(sql)
+                    mycursor.fetchall()
+                    if mycursor.rowcount:
+                        print("This email already exists! Please try again!")
+                        continue
+                    break
+
+            elif choice == '4':
+                address = input('Enter address: ').upper()
+            else:
+                break
+
+            database = (mob1, mob2, email, address, c_id)
+            sql = "UPDATE customer SET mobile_1 = %d, mobile_2 = %d, email = '%s', address = '%s' WHERE c_id = '%s'" % database
+            mycursor.execute(sql)
+            mycon.commit()
+
+            print("Customer details updated")
+
+    mycon.close()
