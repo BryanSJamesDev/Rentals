@@ -161,3 +161,22 @@ def UPDATE():
             print("Customer details updated")
 
     mycon.close()
+
+def DELETE():
+    '''To delete customer from table'''
+    mycon = mysql.connector.connect(host='localhost',
+                                   database='car_rentals',
+                                   user='csproject',
+                                   password='2020')
+    mycursor = mycon.cursor(buffered=True)
+
+    while True:
+        c_id = input("Enter your customer id: ").upper()
+
+        sql = "select * from customer where c_id = '%s'" % c_id
+
+        mycursor.execute(sql)
+
+        data = mycursor.fetchall()
+
+        h = mycursor.rowcount
