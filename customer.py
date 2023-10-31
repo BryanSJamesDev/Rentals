@@ -180,3 +180,31 @@ def DELETE():
         data = mycursor.fetchall()
 
         h = mycursor.rowcount
+
+        if h == 0:
+            print("The customer id does not exist")
+        else:
+            while True:
+                a = input("Do you want to remove '%s' from Customer table?: [Y/N] " % data[0][1]).upper()
+                if a not in ('Y', 'N'):
+                    print("Invalid choice entered, Enter specified value [Y/N]")
+                    continue
+                break
+
+            if a == 'Y':
+                sql = "DELETE from customer WHERE c_id = '%s'" % c_id
+                mycursor.execute(sql)
+                mycon.commit()
+                print('Customer successfully deleted')
+
+        while True:
+            choice = input('Do you wish to delete another customer? [y/n]').upper()
+            if choice not in ('Y', 'N'):
+                print('Invalid choice entered, Enter the specified choice [y/n]')
+                continue
+            break
+
+        if choice == 'N':
+            break
+
+    mycon.close()
