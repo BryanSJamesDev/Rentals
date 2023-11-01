@@ -208,3 +208,18 @@ def DELETE():
             break
 
     mycon.close()
+
+def VIEWONE():
+    '''To view the details of a particular customer'''
+    mycon = mysql.connector.connect(host='localhost',
+                                   database='car_rentals',
+                                   user='csproject',
+                                   password='2020')
+    mycursor = mycon.cursor(buffered=True)
+
+    c_id = input('Enter Customer ID: ').upper()
+    sql = 'Select * from customer where c_id="%s"' % c_id
+    mycursor.execute(sql)
+    data = mycursor.fetchall()
+    print()
+    header = ['CUSTOMER ID', 'NAME', 'MOBILE 1', 'MOBILE 2', 'EMAIL', 'ADDRESS', 'RESERVATION COUNT', 'STATUS']
