@@ -223,3 +223,18 @@ def VIEWONE():
     data = mycursor.fetchall()
     print()
     header = ['CUSTOMER ID', 'NAME', 'MOBILE 1', 'MOBILE 2', 'EMAIL', 'ADDRESS', 'RESERVATION COUNT', 'STATUS']
+
+    if mycursor.rowcount:
+        data = data[0]
+        status = {'I': 'Inactive', 'A': 'Active'}
+        for i in range(8):
+            if i in (0, 1, 4, 5):
+                print('{:^19s}:{:^50s}'.format(header[i], data[i]))
+            elif i in (2, 3, 6):
+                print('{:^19s}:{:^50d}'.format(header[i], data[i]))
+            else:
+                print('{:^19s}:{:^50s}'.format(header[i], status[data[i]))
+    else:
+        print('Invalid Customer ID, please try again later')
+
+    mycon.close()
