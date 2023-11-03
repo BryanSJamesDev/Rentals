@@ -238,3 +238,28 @@ def VIEWONE():
         print('Invalid Customer ID, please try again later')
 
     mycon.close()
+
+def VIEWALL():
+    '''To view all customers in the Customer table'''
+    print()
+    mycon = mysql.connector.connect(host='localhost',
+                                   database='car_rentals',
+                                   user='csproject',
+                                   password='2020')
+    mycursor = mycon.cursor(buffered=True)
+
+    sql = 'SELECT c_id, name, mobile_1, email, status from customer order by length(c_id),c_id'
+    mycursor.execute(sql)
+
+    data = mycursor.fetchall()
+
+    if mycursor.rowcount:
+        tags = ('CUSTOMER ID', 'NAME', 'MOBILE 1', 'EMAIL', 'STATUS')
+        print('{:^12s}|{:^20s}|{:^10s}|{^32s}|{:^8s}'.format(*tags))
+
+        print('{:^12s}|{:^20s}|{:^10s}|{^32s}|{:^8s}'.format('', '', '', '', ''))
+        for x in data:
+            print('{:^12s}|{:^20s}|{:^10d}|{:^32s}|{:^8s}'.format(*x))
+    else:
+        print('No records available')
+    mycon.close()
