@@ -35,3 +35,23 @@ def overdue():
 
     mycon.close()
     return rlist, clist
+
+def viewall():
+    '''View all reservations'''
+    print()
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+
+    sql = "select * from reservations order by length(r_id),r_id"
+    mycursor.execute(sql)
+    data = mycursor.fetchall()
+    if mycursor.rowcount:
+        header = ["Reservation ID", "Car ID", "Customer ID", "Starting date", "Closing date", "Duration", "Total Amount"]
+
+        print('{:^16s}|{:^15s}|{:^13s}|{:^15s}|{:^14s}|{:^10s}|{:^14s}'.format(*header))
+        print('{:^16s}|{:^15s}|{:^13s}|{:^15s}|{:^14s}|{:^10s}|{:^14s}'.format('', '', '', '', '', '', ''))
+
+        for i in data:
+            print('{:^16s}|{:^15s}|{:^13s}|{:^15s}|{:^14s}|{:^10d}|{:^14.2f}'.format(*i[:3], i[3].strftime('%d-%m-%Y'), i[4].strftime('%d-%m-%Y'), *i[5:]))
+
+    od_r = overdue()[0]
