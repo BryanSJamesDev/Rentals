@@ -55,3 +55,16 @@ def viewall():
             print('{:^16s}|{:^15s}|{:^13s}|{:^15s}|{:^14s}|{:^10d}|{:^14.2f}'.format(*i[:3], i[3].strftime('%d-%m-%Y'), i[4].strftime('%d-%m-%Y'), *i[5:]))
 
     od_r = overdue()[0]
+
+    if len(od_r):
+        print('The following are overdue:', *od_r)
+    else:
+        print('No records exist')
+    mycon.close()
+
+def unique(L):
+    uniq = []
+    for i in L:
+        if i not in uniq:
+            uniq.append(i)
+    return uniq
