@@ -68,3 +68,15 @@ def unique(L):
         if i not in uniq:
             uniq.append(i)
     return uniq
+
+def new_reservation():
+    '''To make a new car reservation'''
+    mycon = mysql.connector.connect(host='localhost', database='car_rentals', user='csproject', password='2020')
+    mycursor = mycon.cursor(buffered=True)
+
+    while True:
+        ask_existing = input('Are you an existing customer? [y/n]: ').upper()
+        if ask_existing in ('Y', 'N'):
+            break
+        else:
+            print('Invalid choice entered! Enter the specified choice [y/n]')
