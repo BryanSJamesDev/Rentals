@@ -80,3 +80,18 @@ def new_reservation():
             break
         else:
             print('Invalid choice entered! Enter the specified choice [y/n]')
+
+    if ask_existing == 'N':
+        c_id = customer_related_functions.ADD()
+    else:
+        sql = 'SELECT c_id, status from customer'
+        mycursor.execute(sql)
+        data = mycursor.fetchall()
+        data1 = []
+        data2 = []
+
+        for i, j in data:
+            if j == 'I':
+                data1.append(i)
+            else:
+                data2.append(i)
