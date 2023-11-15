@@ -95,3 +95,37 @@ def new_reservation():
                 data1.append(i)
             else:
                 data2.append(i)
+
+        while True:
+            c_id = input('Enter your customer ID: ').upper()
+            if c_id in data2:
+                print('Please close existing reservation before creating a new one')
+                return
+            elif c_id not in data1:
+                print("Customer ID '%s' does not exist!" % c_id)
+                continue
+            break
+
+        sql = 'Select company, model, year, car_id from cars where status = "a"'
+        mycursor.execute(sql)
+        data = mycursor.fetchall()
+
+        if mycursor.rowcount == 0:
+            print('No cars available')
+            return
+
+        main_dict = {}
+        # data - [(company, model, year, car_id), (), ()]
+
+        for i, j, k, l in data:
+            if i in main_dict:
+                if j in main_dict[i]:
+                    if k in main_dict[i][j]:
+                        main_dict[i][j][k].append(l)
+                    else:
+                        main_dict[i][j][k] = []
+                        main_dict[i][j][k].append(l)
+                else:
+                    main_dict[i][j] = {}
+                    main_dict[i][j][k] = []
+                    main_dict[i][j][k].append(l)
