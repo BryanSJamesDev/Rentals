@@ -129,3 +129,39 @@ def new_reservation():
                     main_dict[i][j] = {}
                     main_dict[i][j][k] = []
                     main_dict[i][j][k].append(l)
+
+            else:
+                main_dict[i] = {}
+                main_dict[i][j] = {}
+                main_dict[i][j][k] = []
+                main_dict[i][j][k].append(l)
+
+        # main_dict = {Company:{Model:{Year:[car_id's],Year:[car_id's]}}}
+
+        while True:
+            while True:
+                company_choice = input('Enter your company choice: %s ' % list(main_dict.keys())).upper()
+                if company_choice not in main_dict:
+                    print('Sorry, the company name does not exist, Enter another company')
+                else:
+                    break
+
+            while True:
+                model_choice = input('Enter the model of your choice: %s ' % list(main_dict[company_choice].keys())).upper()
+                if model_choice not in main_dict[company_choice]:
+                    print('Sorry, the model name does not exist, Enter another model')
+                else:
+                    break
+
+            while True:
+                year_choice = input("Enter your choice of year: %s " % list(main_dict[company_choice][model_choice].keys()))
+                if not year_choice.isdigit():
+                    print("You have not entered a digit")
+                    continue
+                year_choice = int(year_choice)
+                if year_choice not in main_dict[company_choice][model_choice]:
+                    print("Sorry, the year does not exist")
+                else:
+                    break
+
+            print("\nThese are the specifications of your chosen car:\n")
