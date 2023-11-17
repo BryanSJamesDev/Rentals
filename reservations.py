@@ -165,3 +165,26 @@ def new_reservation():
                     break
 
             print("\nThese are the specifications of your chosen car:\n")
+
+            sql = "select * from cars where company = '%s' and model = '%s' and year = %d and status = 'a' order by rand()" % (company_choice, model_choice, year_choice)
+            mycursor.execute(sql)
+            car = mycursor.fetchall()[0]
+
+            header = ['CAR_ID', 'COMPANY', 'MODEL', 'YEAR', 'ENGINE', 'REAR AC', 'NO OF SEATS', 'INFOTAINMENT SYSTEM', 'COST PER DAY', 'STATUS']
+            engine = {'E': 'Electric', 'P': 'Petrol', 'D': 'Diesel'}
+            status = {'A': 'Available', 'R': 'Rented', 'M': 'Maintenance'}
+            choice = {'Y': 'Available', 'N': 'Not available'}
+
+            for i in range(len(header)):
+                if i in (0, 1, 2):
+                    print('{:^21s}:{:^25s}'.format(header[i], car[i]))
+                elif i in (3, 6):
+                    print('{:^21s}:{:^25d}'.format(header[i], car[i]))
+                elif i == 4:
+                    print('{:^21s}:{:^25s}'.format(header[i], engine[car[4]))
+                elif i in (5, 7):
+                    print('{:^21s}:{:^25s}'.format(header[i], choice[car[i]))
+                elif i == 8:
+                    print('{:^21s}:{:^25.3f}'.format(header[i], car[8]))
+                else:
+                    print('{:^21s}:{:^25s}'.format(header[i], status[car[9]))
