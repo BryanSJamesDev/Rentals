@@ -188,3 +188,36 @@ def new_reservation():
                     print('{:^21s}:{:^25.3f}'.format(header[i], car[8]))
                 else:
                     print('{:^21s}:{:^25s}'.format(header[i], status[car[9]))
+
+            while True:
+                F = input("Do you wish to continue with this car? [y/n] ").upper()
+                if F not in ['Y', 'N']:
+                    print("Invalid choice entered")
+                else:
+                    break
+                if F == 'Y':
+                    break
+
+            while True:
+                days = input("How long (in days) do you want to keep the car? ")
+                if days.isdigit():
+                    days = int(days)
+                    if days == 0:
+                        print('Number should be greater than 0')
+                        continue
+                    break
+                else:
+                    print("Invalid data entered")
+
+            total = days * car[8]
+
+            sql = "select reservation_count from customer where c_id = '%s'" % c_id
+            mycursor.execute(sql)
+            discount_yn = mycursor.fetchone()[0]
+
+            if discount_yn > 0:
+                discount = (discount_yn * days) / 10
+                print("You have received a discount of", discount, '%')
+                total -= (discount * total) / 100
+
+            print('Total Amount: KD', total)
