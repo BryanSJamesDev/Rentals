@@ -221,3 +221,28 @@ def new_reservation():
                 total -= (discount * total) / 100
 
             print('Total Amount: KD', total)
+
+            sql = "update cars set status = 'R' where car_id = '%s'" % car[0]
+            mycursor.execute(sql)
+
+            sql = "update customer set status = 'A' where c_id = '%s'" % c_id
+            mycursor.execute(sql)
+
+            sql = "select * from reservations"
+            mycursor.execute(sql)
+            mycursor.fetchall()
+            R_id = mycursor.rowcount
+            R_id = 'R' + str(R_id + 1)
+
+            R_date = date.today()
+            C_date = R_date + timedelta(days)
+            R_date = R_date.strftime('%Y-%m-%d')
+            C_date = C_date.strftime('%Y-%m-%d')
+
+            sql = "insert into reservations values ('%s','%s','%s','%s','%s',%d,%f)" % (R_id, car[0], c_id, R_date, C_date, days, total)
+
+            mycursor.execute(sql)
+            mycon.commit()
+            mycon.close()
+
+            print('Reservation Completed Successfully, Your Reservation ID is', R_id)
