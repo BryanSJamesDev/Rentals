@@ -246,3 +246,20 @@ def new_reservation():
             mycon.close()
 
             print('Reservation Completed Successfully, Your Reservation ID is', R_id)
+
+def close_reservation():
+    '''To close the reservation'''
+    mycon = mysql.connector.connect(user='csproject', host='localhost', password='2020', database='car_rentals')
+    mycursor = mycon.cursor(buffered=True)
+
+    sql = 'select r_id, car_id from reservations where c_date<=curdate()'
+    mycursor.execute(sql)
+    rncarid_list = mycursor.fetchall()
+    relation_dict = dict(rncarid_list)
+
+    od_r = overdue()[0]
+
+    sql = 'select r_id from reservations where c_date>curdate()'
+    mycursor.execute(sql)
+    early = mycursor.fetchall()
+    early = [i[0] for i in early]
