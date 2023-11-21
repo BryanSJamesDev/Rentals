@@ -263,3 +263,30 @@ def close_reservation():
     mycursor.execute(sql)
     early = mycursor.fetchall()
     early = [i[0] for i in early]
+
+    while True:
+        ir_id = input('Enter the Reservation ID: ').upper()
+        if ir_id in od_r:
+            break
+        elif ir_id in relation_dict:
+            print('Reservation has already been closed!')
+            return
+        elif ir_id in early:
+            print('Oh, you are early.. Please check back in later : )')
+            return
+        else:
+            print('Invalid Reservation ID, Please try again')
+
+    sql = "update cars set status = 'A' where car_id = '%s'" % relation_dict[ir_id]
+    mycursor.execute(sql)
+
+    sql = "select c_id from reservations where r_id = '%s'" % ir_id
+    mycursor.execute(sql)
+    c_id = mycursor.fetchone()[0]
+
+    sql = 'update customer set status = "I", reservation_count = reservation_count + 1 where c_id = "%s"' % c_id
+    mycursor.execute(sql)
+
+    print('Reservation Closed Successfully')
+    mycon.commit()
+    mycon.close()
