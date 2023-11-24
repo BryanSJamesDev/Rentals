@@ -9,3 +9,10 @@ while True:
     print('2. CUSTOMERS')
     print('3. RESERVATIONS')
     print('4. EXIT')
+
+    while True:
+        choice = input('Enter your choice: ')
+        if not choice.isdigit() or len(choice) > 1 or choice not in '1234':
+            print('Invalid Choice, Please try again')
+        else:
+            break
