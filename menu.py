@@ -16,3 +16,26 @@ while True:
             print('Invalid Choice, Please try again')
         else:
             break
+
+    if choice == '3':
+        while True:
+            print('\n1. CREATE NEW RESERVATION')
+            print('2. VIEW ALL RESERVATIONS')
+            print('3. CLOSE EXISTING RESERVATION')
+            print('4. BACK')
+
+            while True:
+                choice1 = input('Enter your choice: ')
+                if not choice1.isdigit() or len(choice1) > 1 or choice1 not in '1234':
+                    print('Invalid Choice, Please try again')
+                else:
+                    break
+
+            if choice1 == '2':
+                reservation_related_functions.viewall()
+            elif choice1 == '1':
+                reservation_related_functions.new_reservation()
+            elif choice1 == '3':
+                reservation_related_functions.close_reservation()
+            else:
+                break
