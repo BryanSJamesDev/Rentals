@@ -65,3 +65,20 @@ while True:
                 break
             else:
                 customer_related_functions.VIEWONE()
+
+    elif choice == '1':
+            while True:
+                print('\n1. ADD A CAR')
+                print('2. VIEW ONE')
+                print('3. VIEW ALL')
+                print('4. CHANGE CAR STATUS')
+                print('5. CHANGE CAR PRICE')
+                print('6. DELETE A CAR')
+                print('7. BACK')
+    
+                while True:
+                    choice1 = input('Enter your choice: ')
+                    if not choice1.isdigit() or len(choice1) > 1 or choice1 not in '1234567':
+                        print('Invalid Choice, Please try again')
+                    else:
+                        break
