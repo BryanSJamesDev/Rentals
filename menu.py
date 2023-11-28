@@ -82,3 +82,23 @@ while True:
                         print('Invalid Choice, Please try again')
                     else:
                         break
+    
+                if choice1 == '3':
+                    car_related_functions.viewall()
+                elif choice1 == '1':
+                    car_related_functions.add_car()
+                elif choice1 == '4':
+                    car_related_functions.change_status()
+                elif choice1 == '5':
+                    car_related_functions.change_price()
+                elif choice1 == '6':
+                    car_related_functions.DEL_CAR()
+                elif choice1 == '7':
+                    break
+                else:
+                    car_related_functions.viewone()
+        else:
+            print('\nPROGRAM END')
+            break
+    
+    print('Thank you for using this program, Have a great day!')
